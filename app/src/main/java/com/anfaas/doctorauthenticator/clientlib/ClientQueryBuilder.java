@@ -1,6 +1,6 @@
 package com.anfaas.doctorauthenticator.clientlib;
 
-import com.rocketmail.vaishnavanil.hackcovit.enums.State;
+import com.anfaas.doctorauthenticator.enums.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
