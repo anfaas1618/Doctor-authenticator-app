@@ -1,5 +1,6 @@
 package com.anfaas.doctorauthenticator.ui.searchFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +15,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anfaas.doctorauthenticator.R;
 import com.anfaas.doctorauthenticator.clientlib.ClientQueryBuilder;
+import com.anfaas.doctorauthenticator.clientlib.DoctorData;
+import com.anfaas.doctorauthenticator.enums.State;
+
+import org.json.JSONException;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SearchFragment extends Fragment {
 EditText E_name,E_regId,E_state;
+    String state_state;
 
 int year;
 Button search_btn;
@@ -57,7 +64,35 @@ Button search_btn;
         stateText.setVisibility(View.INVISIBLE);
         yearpick.setVisibility(View.INVISIBLE);
         yearText.setVisibility(View.INVISIBLE);
-        String[] states = new String[] {"andra pradesh", "goa", "delhi", "mp", "rajasthan"};//todo add states here Vaishnav
+        String[] states = new String[] {
+                "ANDHRA_PRADESH",
+                "ARUNACHAL_PRADESH",
+                "ASSAM",
+                "BIHAR",
+                "DELHI",
+                "GOA",
+                "GUJARAT",
+                "HARYANA",
+                "HIMACHAL_PRADESH",
+                "JAMMU_n_KASHMIR",
+                "JHARKHAND",
+                "KARNATAKA",
+                "MADHYA_PRADESH",
+                "MAHARASHTRA",
+                "MANIPUR",
+                "MIZORAM",
+                "NAGALAND",
+                "ORISSA",
+                "PUNJAB",
+                "RAJASTHAN",
+                "SIKKIM",
+                "TAMIL_NADU",
+                "TELANGANA",
+                "KERALA",
+                "TRIPURA",
+                "UTTARAKHAND",
+                "UTTAR_PRADESH",
+                "WEST_BENGAL"};
         stateCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -96,22 +131,38 @@ Button search_btn;
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isYearSelected==true)
-                {//TODO vaishnav add here builder
-                    ClientQueryBuilder queryBuilder= new ClientQueryBuilder();
-                    queryBuilder.fetchData("www.host.com");
-                    String yearString = String.valueOf(year);
-                    queryBuilder.setRegYear(yearString);
+                CardView cardView=view.findViewById(R.id.cardView);
+                cardView.setVisibility(View.GONE);
+                //TODO vaishnav add here builder
+                ClientQueryBuilder queryBuilder= new ClientQueryBuilder();
+                queryBuilder.fetchData("https:anfaas-com");
+                String yearString = String.valueOf(year);
+                if (isYearSelected) queryBuilder.setRegYear(yearString);
+                if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
+                if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
+                if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
 
-                    if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
-                  //  if (E_state.getText()!=null) queryBuilder.setState(E_state.getText().toString().trim());
-
+          DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("www.host.com");
+                for (DoctorData doctorData:data)
+                {
+                    try {
+                        doctorData.getAddress();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
         statepick.setMinValue(0);
-        statepick.setMaxValue(4);//todo add max no of states here Vaishnav.
+        statepick.setMaxValue(27);
         statepick.setDisplayedValues(states);
+        statepick.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                int x=picker.getValue();
+                 state_state=states[x];
+            }
+        });
         yearpick.setMinValue(1970);
         yearpick.setMaxValue(2050);
         yearpick.setValue(1999);
@@ -120,6 +171,7 @@ Button search_btn;
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 year = yearpick.getValue();
                 Log.d("picker value", year + "");
+
             }
         });
     }
