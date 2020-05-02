@@ -38,7 +38,9 @@ import java.util.ArrayList;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SearchFragment extends Fragment {
-EditText E_name,E_regId,E_state;
+    listadapterr adapter;
+
+    EditText E_name,E_regId,E_state;
     String state_state;
     ListView list;
    public ClientQueryBuilder queryBuilder;
@@ -147,10 +149,10 @@ Button search_btn;
                  queryBuilder= new ClientQueryBuilder();
 
                 String yearString = String.valueOf(year);
-                if (isYearSelected) queryBuilder.setRegYear(yearString);
+            //    if (isYearSelected) queryBuilder.setRegYear(yearString);
        //         if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
                 if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
-                if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
+          //      if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
             new   task().execute();
 
 //                for (DoctorData doctorData:data)
@@ -189,23 +191,28 @@ Button search_btn;
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.d(TAG, "onPostExecute:hrtr .");
+            list.setAdapter(adapter);
+
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            DoctorData[] data = (DoctorData[]) queryBuilder.fetchData(" http://anfaas-com.stackstaging.com/hackcovid");
+            DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("https://vshnv.pagekite.me");
             ArrayList<doctorModel> mod=new ArrayList<>();
             for (DoctorData data1:data)
             {
                 doctorModel model;
                 try {
-                    model = new doctorModel(data1.getDoctorName(),data1.getRegistrationNumber());
+                    Log.d(TAG, "doInBackground: "+data1.getRegistrationNumber());
+                    model = new doctorModel(data1.getDoctorName(),data1.getRegistrationNumber(),data1.getParentName(),data1.getRegistrationDate(),data1.getBirthDate(),data1.getDegree());
                     mod.add(model);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                listadapterr adapter= new listadapterr(getContext(),mod);
-                list.setAdapter(adapter);
+                 adapter= new listadapterr(getContext(),mod);
+
+
             }
             return null;
         }

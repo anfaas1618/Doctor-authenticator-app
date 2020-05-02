@@ -23,13 +23,7 @@ public class aboutFragment extends Fragment {
         aboutViewModel =
                 ViewModelProviders.of(this).get(com.anfaas.doctorauthenticator.ui.about.aboutViewModel.class);
         View root = inflater.inflate(R.layout.fragment_about, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        aboutViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 }

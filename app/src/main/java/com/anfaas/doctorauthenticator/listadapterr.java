@@ -16,10 +16,10 @@ import java.util.ArrayList;
 public class listadapterr extends ArrayAdapter<doctorModel> {
     ArrayList <doctorModel> docs;
     Context context;
-    public listadapterr(@NonNull Context context, ArrayList<doctorModel> docs) {
-        super(context,R.layout.doc_list);
-        this.docs=docs;
-        this.context=context;
+    public listadapterr(Context context, ArrayList<doctorModel> values) {
+        super(context, -1, values);
+        this.context = context;
+        this.docs = values;
     }
 
     @Nullable
@@ -34,10 +34,20 @@ public class listadapterr extends ArrayAdapter<doctorModel> {
 
 
         LayoutInflater layoutInflater = LayoutInflater.from(context.getApplicationContext());
-        View myView= layoutInflater.inflate(R.layout.doc_list,null,false);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View myView = inflater.inflate(R.layout.doc_list, parent, false);
         doctorModel doc_list=docs.get(position);
         TextView docname=myView.findViewById(R.id.name);
+        TextView parent_name=myView.findViewById(R.id.parent_name);
+        TextView regdate=myView.findViewById(R.id.reg_date);
+        TextView birthdate=myView.findViewById(R.id.birthDateStr);
+        TextView docDegree=myView.findViewById(R.id.doc_degree);
         TextView doc_reg=myView.findViewById(R.id.id);
+        parent_name.setText(doc_list.getParent_name());
+        regdate.setText(doc_list.getRegDate());
+        birthdate.setText(doc_list.getBirthDateStr());
+        docDegree.setText(doc_list.getDoctorDegree());
         docname.setText(doc_list.getName());
         doc_reg.setText(doc_list.regid);
         return myView;

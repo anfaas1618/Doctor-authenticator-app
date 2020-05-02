@@ -51,13 +51,13 @@ public class ClientQueryBuilder {
             }
             response = con.followRedirects(true).execute();
             Document document = response.parse();
-            JSONObject obj = new JSONObject(document.getElementsByTag("body").toString());
+            JSONObject obj = new JSONObject(document.getElementsByTag("body").text());
             if(obj.length()==0)return null;
             DoctorData[] result = new DoctorData[obj.length()];
             int index = 0;
             for (Iterator<String> it = obj.keys(); it.hasNext(); ) {
                 String uuid = it.next();
-                result[index++] = (DoctorData) obj.getJSONObject(uuid);
+                result[index++] = new DoctorData(obj.getJSONObject(uuid).toString());
             }
             return result;
         } catch (IOException | JSONException e) {

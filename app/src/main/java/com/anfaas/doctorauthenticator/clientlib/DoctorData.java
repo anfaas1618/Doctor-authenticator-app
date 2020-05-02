@@ -4,35 +4,39 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DoctorData extends JSONObject {
+
+    public DoctorData(String s) throws JSONException {
+        super(s);
+    }
     public String getDoctorName() throws JSONException {
-        return getString("firstName");
+        return String.valueOf(get("firstName"));
     }
     public String getRegistrationDate() throws JSONException {
-        return getString("regDate");
+        return String.valueOf(get("regDate"));
     }
 
     public String getParentName() throws JSONException {
-        return getString("parentName");
+        return String.valueOf(get("parentName"));
     }
     public String getBirthDate() throws JSONException {
-        return getString("birthDateStr");
+        return String.valueOf(get("birthDateStr"));
     }
     public String getDegree() throws JSONException {
-        return getString("doctorDegree");
+        return String.valueOf(get("doctorDegree"));
     }
     public String getUniversity() throws JSONException {
-        return getString("university");
+        return String.valueOf(get("university"));
     }
     public String getYearOfPassing() throws JSONException {
-        return getString("yearOfPassing");
+        return String.valueOf(get("yearOfPassing"));
     }
     public String getRegistrationNumber() throws JSONException {
-        return getString("registrationNo");
+        return String.valueOf(get("registrationNo"));
     }
     public String getStateCouncilName() throws JSONException {
-        return getString("smcName");
+        return String.valueOf(get("smcName"));
     }
     public String getAddress() throws JSONException {
-        return getString("address");
+        return String.valueOf(get("address"));
     }
 }
