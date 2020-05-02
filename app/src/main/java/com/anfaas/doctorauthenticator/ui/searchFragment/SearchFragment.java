@@ -25,10 +25,11 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SearchFragment extends Fragment {
 EditText E_name,E_regId,E_state;
+
 int year;
 Button search_btn;
     private SearchViewModel searchViewModel;
-    public  Boolean isYearSelected=false;
+    public  Boolean isYearSelected=false,isStateSelected=false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,28 +43,51 @@ Button search_btn;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        NumberPicker picker= view.findViewById(R.id.numberPicker);
+        NumberPicker yearpick= view.findViewById(R.id.yearpick);
+        NumberPicker statepick= view.findViewById(R.id.statePick);
+        TextView stateText =view.findViewById(R.id.stateText);
          E_name=view.findViewById(R.id.edit_name);
+         CheckBox stateCheck=view.findViewById(R.id.stateCheck);
         E_regId=view.findViewById(R.id.edit_id);
-        E_state=view.findViewById(R.id.edit_state);
         TextView yearText=view.findViewById(R.id.textView);
-        picker.setVisibility(View.INVISIBLE);
-        yearText.setVisibility(View.INVISIBLE);
+
         CheckBox box= view.findViewById(R.id.checkBox);
         search_btn=view.findViewById(R.id.searchbtn);
+        statepick.setVisibility(View.INVISIBLE);
+        stateText.setVisibility(View.INVISIBLE);
+        yearpick.setVisibility(View.INVISIBLE);
+        yearText.setVisibility(View.INVISIBLE);
+        String[] states = new String[] {"andra pradesh", "goa", "delhi", "mp", "rajasthan"};//todo add states here Vaishnav
+        stateCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    statepick.setVisibility(View.VISIBLE);
+                    stateText.setVisibility(View.VISIBLE);
+                    isStateSelected=true;
+                }
+                else
+                {
+                    statepick.setVisibility(View.INVISIBLE);
+                    stateText.setVisibility(View.INVISIBLE);
+                    isStateSelected=false;
+                }
+            }
+        });
         box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("TAG", "onCheckedChanged: "+isChecked);
                 if (isChecked)
                 {
-                    picker.setVisibility(View.VISIBLE);
+                    yearpick.setVisibility(View.VISIBLE);
                     yearText.setVisibility(View.VISIBLE);
                     isYearSelected=true;
                 }
                 else
                    {
-                       picker.setVisibility(View.INVISIBLE);
+                       yearpick.setVisibility(View.INVISIBLE);
                        yearText.setVisibility(View.INVISIBLE);
                        isYearSelected=false;
                    }
@@ -80,18 +104,20 @@ Button search_btn;
                     queryBuilder.setRegYear(yearString);
 
                     if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
-                    if (E_state.getText()!=null) queryBuilder.setState(E_state.getText().toString().trim());
+                  //  if (E_state.getText()!=null) queryBuilder.setState(E_state.getText().toString().trim());
 
                 }
             }
         });
-        picker.setMinValue(1970);
-        picker.setMaxValue(2050);
-        picker.setValue(1999);
-        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        statepick.setMinValue(0);
+        statepick.setMaxValue(30);//todo add max no of states here Vaishnav
+        yearpick.setMinValue(1970);
+        yearpick.setMaxValue(2050);
+        yearpick.setValue(1999);
+        yearpick.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                year = picker.getValue();
+                year = yearpick.getValue();
                 Log.d("picker value", year + "");
             }
         });

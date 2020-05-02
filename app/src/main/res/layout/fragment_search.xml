@@ -28,7 +28,9 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="187dp"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -52,15 +54,6 @@
                     android:hint="enter the registration id of doctor"
                     android:textColorHighlight="@color/colorPrimary"
                     android:textColorHint="@color/colorPrimaryDark" />
-                <EditText
-                    android:id="@+id/edit_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:drawableEnd="@drawable/ic_docc"
-                    android:hint="enter the state of india"
-                    android:textColorHighlight="@color/colorPrimary"
-                    android:textColorHint="@color/colorPrimaryDark" />
 
             </LinearLayout>
 
@@ -68,44 +61,74 @@
                 android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="do you know the year"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
+            <CheckBox
+                android:id="@+id/stateCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="44dp"
+                android:text="do you know the state"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/stateText"
+                tools:layout_editor_absoluteX="5dp" />
+
             <NumberPicker
-                android:id="@+id/numberPicker"
-                android:layout_width="143dp"
-                android:layout_height="136dp"
-                android:layout_marginTop="56dp"
+                android:id="@+id/yearpick"
+                android:layout_width="148dp"
+                android:layout_height="105dp"
+
+                android:layout_marginTop="209dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.443"
                 app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+            <NumberPicker
+                android:id="@+id/statePick"
+                android:layout_width="231dp"
+                android:layout_height="117dp"
+                android:layout_marginTop="62dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/stateText"
+                app:layout_constraintTop_toTopOf="@+id/stateCheck" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="68dp"
+                android:layout_width="151dp"
+                android:layout_height="85dp"
                 android:fontFamily="cursive"
                 android:text="year"
                 android:textColor="@color/colorPrimary"
                 android:textSize="60sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/stateCheck"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox"
+                tools:layout_editor_absoluteX="5dp" />
+
+            <TextView
+                android:id="@+id/stateText"
+                android:layout_width="110dp"
+                android:layout_height="85dp"
+                android:layout_marginBottom="90dp"
+                android:fontFamily="cursive"
+                android:text="state"
+                android:textColor="@color/colorPrimary"
+                android:textSize="60sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/searchbtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.085" />
+                tools:layout_editor_absoluteX="14dp" />
 
             <Button
                 android:id="@+id/searchbtn"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="68dp"
+                android:layout_marginBottom="16dp"
                 android:background="#651FFF"
                 android:text="@string/title_search"
                 android:textColor="#FFFFFF"
