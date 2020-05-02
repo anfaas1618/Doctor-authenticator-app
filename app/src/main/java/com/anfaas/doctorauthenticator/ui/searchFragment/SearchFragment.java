@@ -1,6 +1,8 @@
 package com.anfaas.doctorauthenticator.ui.searchFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -23,16 +27,21 @@ import androidx.lifecycle.ViewModelProviders;
 import com.anfaas.doctorauthenticator.R;
 import com.anfaas.doctorauthenticator.clientlib.ClientQueryBuilder;
 import com.anfaas.doctorauthenticator.clientlib.DoctorData;
+import com.anfaas.doctorauthenticator.doctorModel;
 import com.anfaas.doctorauthenticator.enums.State;
+import com.anfaas.doctorauthenticator.listadapterr;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SearchFragment extends Fragment {
 EditText E_name,E_regId,E_state;
     String state_state;
-
+    ListView list;
+   public ClientQueryBuilder queryBuilder;
 int year;
 Button search_btn;
     private SearchViewModel searchViewModel;
@@ -128,30 +137,31 @@ Button search_btn;
                    }
             }
         });
+        list=view.findViewById(R.id.list);
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CardView cardView=view.findViewById(R.id.cardView);
                 cardView.setVisibility(View.GONE);
-                //TODO vaishnav add here builder
-                ClientQueryBuilder queryBuilder= new ClientQueryBuilder();
-                queryBuilder.fetchData("https:anfaas-com");
+
+                 queryBuilder= new ClientQueryBuilder();
+
                 String yearString = String.valueOf(year);
                 if (isYearSelected) queryBuilder.setRegYear(yearString);
-                if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
+       //         if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
                 if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
                 if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
+            new   task().execute();
 
-          DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("www.host.com");
-                for (DoctorData doctorData:data)
-                {
-                    try {
-                        doctorData.getAddress();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+//                for (DoctorData doctorData:data)
+//                {
+//                    try {
+//                        doctorData.getAddress();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+         }
         });
         statepick.setMinValue(0);
         statepick.setMaxValue(27);
@@ -174,5 +184,30 @@ Button search_btn;
 
             }
         });
+    }
+    class  task extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("https://anfaas.com");
+            ArrayList<doctorModel> mod=new ArrayList<>();
+            for (DoctorData data1:data)
+            {
+                doctorModel model;
+                try {
+                    model = new doctorModel(data1.getDoctorName(),data1.getRegistrationNumber());
+                    mod.add(model);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                listadapterr adapter= new listadapterr(getContext(),mod);
+                list.setAdapter(adapter);
+            }
+            return null;
+        }
     }
 }
