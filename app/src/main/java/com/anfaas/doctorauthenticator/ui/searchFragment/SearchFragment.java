@@ -110,7 +110,7 @@ Button search_btn;
             }
         });
         statepick.setMinValue(0);
-        statepick.setMaxValue(30);//todo add max no of states here Vaishnav.
+        statepick.setMaxValue(4);//todo add max no of states here Vaishnav.
         statepick.setDisplayedValues(states);
         yearpick.setMinValue(1970);
         yearpick.setMaxValue(2050);
