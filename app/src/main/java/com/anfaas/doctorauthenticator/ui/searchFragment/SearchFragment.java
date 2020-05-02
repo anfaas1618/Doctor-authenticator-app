@@ -193,7 +193,7 @@ Button search_btn;
 
         @Override
         protected Void doInBackground(Void... voids) {
-            DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("https://anfaas.com");
+            DoctorData[] data = (DoctorData[]) queryBuilder.fetchData(" http://anfaas-com.stackstaging.com/hackcovid");
             ArrayList<doctorModel> mod=new ArrayList<>();
             for (DoctorData data1:data)
             {

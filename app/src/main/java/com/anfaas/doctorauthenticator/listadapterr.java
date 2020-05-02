@@ -31,8 +31,8 @@ public class listadapterr extends ArrayAdapter<doctorModel> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return super.getView(position, convertView, parent);
-        Application application;
+
+
         LayoutInflater layoutInflater = LayoutInflater.from(context.getApplicationContext());
         View myView= layoutInflater.inflate(R.layout.doc_list,null,false);
         doctorModel doc_list=docs.get(position);
