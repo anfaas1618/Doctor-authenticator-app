@@ -16,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +40,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class SearchFragment extends Fragment {
     listadapterr adapter;
-
+boolean isdataempty=false;
     EditText E_name,E_regId,E_state;
     String state_state;
     ListView list;
@@ -149,10 +150,10 @@ Button search_btn;
                  queryBuilder= new ClientQueryBuilder();
 
                 String yearString = String.valueOf(year);
-            //    if (isYearSelected) queryBuilder.setRegYear(yearString);
-       //         if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
+              // if (isYearSelected) queryBuilder.setRegYear(yearString);
+             //  if (isStateSelected) queryBuilder.setState(State.valueOf( state_state));
                 if (E_name.getText()!=null) queryBuilder.setDoctorName(E_name.getText().toString().trim());
-          //      if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
+              //  if (E_regId.getText()!=null)queryBuilder.setRegYear(E_regId.getText().toString().trim());
             new   task().execute();
 
 //                for (DoctorData doctorData:data)
@@ -193,27 +194,38 @@ Button search_btn;
             super.onPostExecute(aVoid);
             Log.d(TAG, "onPostExecute:hrtr .");
             list.setAdapter(adapter);
-
+            if (isdataempty) {
+                Toast.makeText(getContext(), "cannot find data", Toast.LENGTH_SHORT).show();
+                isdataempty=false;
+            }
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             DoctorData[] data = (DoctorData[]) queryBuilder.fetchData("https://vshnv.pagekite.me");
-            ArrayList<doctorModel> mod=new ArrayList<>();
-            for (DoctorData data1:data)
+            if (data.length==0)
             {
-                doctorModel model;
-                try {
-                    Log.d(TAG, "doInBackground: "+data1.getRegistrationNumber());
-                    model = new doctorModel(data1.getDoctorName(),data1.getRegistrationNumber(),data1.getParentName(),data1.getRegistrationDate(),data1.getBirthDate(),data1.getDegree());
-                    mod.add(model);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                 adapter= new listadapterr(getContext(),mod);
-
-
+                isdataempty=true;
             }
+            ArrayList<doctorModel> mod=new ArrayList<>();
+       try {
+           for (DoctorData data1:data)
+           {
+               doctorModel model;
+               try {if (data1.getDoctorName().length()!=0)
+                   Log.d(TAG, "doInBackground: "+data1.getRegistrationNumber());
+                   model = new doctorModel(data1.getDoctorName(),data1.getRegistrationNumber(),data1.getParentName(),data1.getRegistrationDate(),data1.getBirthDate(),data1.getDegree());
+                   mod.add(model);
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+               adapter= new listadapterr(getContext(),mod);
+}
+
+           }catch (Exception e)
+       {
+           return null;
+       }
             return null;
         }
     }

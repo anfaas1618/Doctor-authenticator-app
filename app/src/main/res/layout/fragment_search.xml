@@ -109,8 +109,9 @@
                 android:id="@+id/statePick"
                 android:layout_width="231dp"
                 android:layout_height="117dp"
-                android:layout_marginTop="62dp"
+                android:layout_marginTop="132dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/stateText"
                 app:layout_constraintTop_toTopOf="@+id/stateCheck" />
 
@@ -125,7 +126,8 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/stateCheck"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox"
-                tools:layout_editor_absoluteX="5dp" />
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="16dp" />
 
             <TextView
                 android:id="@+id/stateText"
@@ -144,13 +146,13 @@
                 android:id="@+id/searchbtn"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="132dp"
                 android:background="#651FFF"
                 android:text="@string/title_search"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintHorizontal_bias="0.349"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
